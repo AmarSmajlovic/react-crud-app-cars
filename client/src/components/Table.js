@@ -19,6 +19,10 @@ function Table({ products, onClick}) {
   }
 
 
+  const editCar = () => {
+  // function for edit car need imput
+  };
+
 
 
     return (
