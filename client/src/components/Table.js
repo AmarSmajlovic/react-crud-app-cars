@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-function Table({ products, onClick}) {  
+function Table({ products, onClick,deleteCar }) {  
 
   // const [cars,setCars] = useState([]);
 
@@ -9,8 +9,9 @@ function Table({ products, onClick}) {
   //   refreshTable();
   // },[])
 
-  const deleteCar = (e) => {
+  const handleDeleteCar = (e) => {
      axios.delete(`http://localhost:8000/deleteModel/${e.target.id}`)
+     .then(res=>deleteCar(res.data))
   }
   
   // const refreshTable = () => {
@@ -22,6 +23,7 @@ function Table({ products, onClick}) {
   const editCar = () => {
   // function for edit car need imput
   };
+
 
 
 
@@ -47,7 +49,7 @@ function Table({ products, onClick}) {
       <td>{car.markName}</td>
       <td><img src={car.image} style={{width:'5rem'}} alt="{car.model}"/></td>
       <td><button className="btn btn-outline-light" id={car.id} onClick={onClick}>Edit</button></td>
-      <td><button className="btn btn-outline-danger" id={car.id} onClick={deleteCar}>Delete</button></td>
+      <td><button className="btn btn-outline-danger" id={car.id} onClick={(e)=>handleDeleteCar(e)}>Delete</button></td>
     </tr>
   )}
   </tbody>

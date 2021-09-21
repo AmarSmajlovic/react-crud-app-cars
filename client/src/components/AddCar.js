@@ -2,7 +2,7 @@ import axios from 'axios';
 import React,{useState,useEffect} from 'react'
 import Modal from "react-bootstrap/Modal";
 
-function AddCar() {
+function AddCar({ addCar }) {
 
    const [cars,setCars] = useState([]);
    const [show,setShow] = useState(false);
@@ -12,8 +12,9 @@ function AddCar() {
    const [model,setModel] = useState("");
 
   
-   const addCar = () => {
+   const handleAddCar = () => {
         axios.post(`http://localhost:8000/addModel?name=${name}&image=${image}&price=${price}&modelId=${model}`)
+        .then(res=>addCar(res.data))
         setShow(false);
         resetInput();
     }
@@ -40,6 +41,8 @@ function AddCar() {
 // //   }
 
 
+
+
     return (
         <div className="mt-5">
         <button className="btn btn-outline-primary" onClick={()=>{setShow(true)}}>Add Car</button>
@@ -58,7 +61,7 @@ function AddCar() {
           </select>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
-          <button className="btn btn-primary" onClick={addCar}>Add</button>
+          <button className="btn btn-primary" onClick={handleAddCar}>Add</button>
           <button className="btn btn-danger" onClick={closeModal}>Close</button>
           </Modal.Footer>
     </Modal>
