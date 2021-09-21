@@ -18,26 +18,26 @@ function AddCar() {
         resetInput();
     }
     
-   const resetInput = () => {
-       setName("");
-       setImage("");
-       setPrice("")
-       setModel("");
-   } 
+    const resetInput = () => {
+        setName("");
+        setImage("");
+        setPrice("")
+        setModel("");
+    } 
+    
+    const closeModal = () => {
+        resetInput();
+        setShow(false);
+    }
+    
+//     useEffect(()=>{
+//         axios.get(`http://localhost:8000/cars`)
+//         .then(res=>setCars(res.data));
+       
+//     },[])
 
-   const closeModal = () => {
-       resetInput();
-       setShow(false);
-   }
-
-   useEffect(()=>{
-       refreshTable();
-   })
-
-   const refreshTable = () => {
-    axios.get(`http://localhost:8000/cars`)
-    .then(res=>setCars(res.data));
-  }
+// //    const refreshTable = () => {
+// //   }
 
 
     return (

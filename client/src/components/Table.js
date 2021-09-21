@@ -3,20 +3,20 @@ import React, { useEffect, useState } from 'react'
 
 function Table({ products, onClick}) {  
 
-  const [cars,setCars] = useState([]);
+  // const [cars,setCars] = useState([]);
 
-  useEffect(()=>{
-    refreshTable();
-  })
+  // useEffect(()=>{
+  //   refreshTable();
+  // },[])
 
   const deleteCar = (e) => {
      axios.delete(`http://localhost:8000/deleteModel/${e.target.id}`)
   }
   
-  const refreshTable = () => {
-    axios.get(`http://localhost:8000/cars`)
-    .then(res=>setCars(res.data));
-  }
+  // const refreshTable = () => {
+  //   axios.get(`http://localhost:8000/cars`)
+  //   .then(res=>setCars(res.data));
+  // }
 
 
   const editCar = () => {
@@ -39,7 +39,7 @@ function Table({ products, onClick}) {
     </tr>
   </thead>
   <tbody>
-  {cars.map(car=>
+  {products.map(car=>
     <tr key={car.id}>
       <th scope="row">{car.id}</th>
       <td>{car.name}</td>

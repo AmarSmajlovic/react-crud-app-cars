@@ -6,7 +6,7 @@ import axios from 'axios';
 import Table from './components/Table';
 import Search from './components/Search';
 import MarkList from './components/MarkList';
-import AddCar from './components/AddCar';
+import ModalCom from './components/AddCar';
 
 
 function App() {
@@ -63,7 +63,7 @@ function App() {
     <div className="container">
       <h1 className="text-center">Car Application</h1>
       <MarkList />
-      <AddCar />
+      <ModalCom />
       <div className="d-flex">
       <Search onChange={(e)=>setQ(e.target.value)} />
       <Filters options={models} placeholder={'model'} onChange={(e)=>setQ(e.target.value)} />
