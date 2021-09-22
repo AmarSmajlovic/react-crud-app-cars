@@ -14,7 +14,11 @@ function AddCar({ addCar }) {
   
    const handleAddCar = () => {
         axios.post(`http://localhost:8000/addModel?name=${name}&image=${image}&price=${price}&modelId=${model}`)
-        .then(res=>addCar(res.data))
+        axios.get(`http://localhost:8000/cars`)
+        .then(response=>{
+            addCar(response.data);
+        })
+        .catch(err=>console.log(err));  
         setShow(false);
         resetInput();
     }
@@ -30,15 +34,15 @@ function AddCar({ addCar }) {
         resetInput();
         setShow(false);
     }
-    
-//     useEffect(()=>{
-//         axios.get(`http://localhost:8000/cars`)
-//         .then(res=>setCars(res.data));
-       
-//     },[])
 
-// //    const refreshTable = () => {
-// //   }
+
+    const [mark,setMark] = useState([]);
+    useEffect(()=>{
+        axios.get('http://localhost:8000/marksName')
+        .then(res=>setMark(res.data))
+        .catch(err=>console.log(err));
+    },[])
+    
 
 
 
@@ -54,14 +58,14 @@ function AddCar({ addCar }) {
           <input type="text" value={price} onChange={(e)=>setPrice(e.target.value)}  placeholder="price"/>
           <select 
            value={model} onChange={(e)=>setModel(e.target.value)} >
-              <option value="3">Renault</option>
-              <option value="1">BMW</option>
-              <option value="4">Skoda</option>
-              <option value="2">Audi</option>
+               <option value="">Select mark</option>
+              {mark.map(mark=>
+                  <option value={mark.id}>{mark.name}</option>
+              )}
           </select>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
-          <button className="btn btn-primary" onClick={handleAddCar}>Add</button>
+          <button className="btn btn-primary" onClick={(e)=>{handleAddCar(e)}}>Add</button>
           <button className="btn btn-danger" onClick={closeModal}>Close</button>
           </Modal.Footer>
     </Modal>
