@@ -29,6 +29,7 @@ function Table({ products, onClick,deleteCar }) {
   const [image,setImage] = useState("");
   const [price,setPrice] = useState("");
   const [model,setModel] = useState("");
+  const [id,setId] = useState("");
   
   
 
@@ -39,12 +40,18 @@ function Table({ products, onClick,deleteCar }) {
           setImage(res.data[0].image)
           setPrice(res.data[0].price)
           setModel(res.data[0].modelId)
+          setId(res.data[0].id);
     })
     setShow(true);
   };
 
   const submitEditCar = () => {
-   console.log('susscesfully updated car!!!');
+   axios.put(`http://localhost:8000/editModel/${id}`,{name:name,price:price,image:image,modelId:model})
+   axios.get(`http://localhost:8000/cars`)
+   .then(response=>{
+       deleteCar(response.data);
+   })
+   .catch(err=>console.log(err));  
    setShow(false);
   }
 
@@ -85,10 +92,10 @@ function Table({ products, onClick,deleteCar }) {
 <Modal show={show}>
       <Modal.Header>Edit car</Modal.Header>
       <Modal.Body className="d-flex flex-column">
-          <input type="text" value={name}   className="input-form" placeholder="name"/>
-          <input type="text" value={image}    placeholder="image"/>
-          <input type="text" value={price}   placeholder="price"/>
-          <select value={model} >
+          <input type="text" value={name} onChange={(e)=>{setName(e.target.value)}}   className="input-form" placeholder="name"/>
+          <input type="text" value={image} onChange={(e)=>{setImage(e.target.value)}}   placeholder="image"/>
+          <input type="text" value={price} onChange={(e)=>{setPrice(e.target.value)}}  placeholder="price"/>
+          <select value={model} onChange={(e)=>{setModel(e.target.value)}} >
                <option value="">Select mark</option>
                {mark.map(mark=>
                   <option value={mark.id}>{mark.name}</option>
@@ -96,7 +103,7 @@ function Table({ products, onClick,deleteCar }) {
           </select>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
-          <button className="btn btn-secondary" onClick={submitEditCar}>Submit</button>
+          <button className="btn btn-secondary" id={id} onClick={submitEditCar}>Submit</button>
           <button className="btn btn-danger" onClick={closeModal}>Close</button>
           </Modal.Footer>
     </Modal>

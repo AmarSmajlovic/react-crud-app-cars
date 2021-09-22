@@ -17,7 +17,7 @@ const getAllModelsAndCars = (req,res)=>{
 }
 
 const getAllCars = (req,res)=>{
-    const sql= 'SELECT car.id,car.name,car.price,car.image,model.name as markName  FROM car JOIN model ON car.modelId=model.id';
+    const sql= 'SELECT car.id,car.name,car.price,car.image,model.name as markName  FROM car JOIN model ON car.modelId=model.id ORDER BY id';
     conn.query(sql,(err,results)=>{
         if(err) throw err;
         res.json(results);
@@ -45,7 +45,7 @@ const getCarByModelId = (req,res)=>{
 }
 
 const getAllMarksName = (req,res) => {
-    const sql = `SELECT DISTINCT name,id FROM model ORDER BY name`;
+    const sql = `SELECT DISTINCT name,id FROM model ORDER BY id`;
     conn.query(sql,(err,result)=>{
         if(err) throw err;
         res.status(200).json(result)
@@ -79,10 +79,11 @@ const delModel = (req,res) => {
 }
 
 const editModel = (req,res) => {
-    const id = req.params.id;
+    const id = +req.params.id;
     const {name,image,price,modelId} = req.body;
+    console.log(req.body);
     const sql = `UPDATE car SET name = ?,image = ?,price = ?,modelId = ? WHERE id = ?`
-    conn.query(sql,[id,name,image,price,modelId],(err,result)=>{
+    conn.query(sql,[name,image,price,modelId,id],(err,result)=>{
         if(err) throw err;
         res.status(200).json(result);
     })
